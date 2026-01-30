@@ -21,13 +21,17 @@ public class UserService {
     }
 
     public void deleteUser(String username) throws SQLException { 
-        String query = "DELETE FROM users WHERE name = '" + username + "'"; 
+    
+    String query = "DELETE FROM users WHERE name = ?"; 
+    
+    try (Connection conn = DriverManager.getConnection(url, "root", password);
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
         
-        try (Connection conn = DriverManager.getConnection(url, "root", password);
-             Statement st = conn.createStatement()) {
-            st.execute(query);
-        }
+        
+        pstmt.setString(1, username);
+        pstmt.execute();
     }
+}
 
     public void notUsed() {
         // SonarQube will flag this as an unused method smell
