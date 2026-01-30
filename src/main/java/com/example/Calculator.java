@@ -1,26 +1,20 @@
-package main.java.com.example;
+package com.example;
 
 public class Calculator {
 
-     // EVEN WORSE: longer, more complex, duplicated logic 
     public int calculate(int a, int b, String op) { 
- 
         if(op.equals("add")) { 
             return a + b; 
         } else if(op.equals("add-again")) { 
-            return a + b; // DUPLICATION 
+            return a + b; 
         } else if(op.equals("sub")) { 
             return a - b; 
         } else if(op.equals("sub-again")) { 
-            return a - b; // DUPLICATION 
+            return a - b; 
         } else if(op.equals("mul")) { 
             return a * b; 
         } else if(op.equals("div")) { 
-            if(b == 0) { 
-                return 0; 
-            } else { 
-                return a / b; 
-            } 
+            return (b == 0) ? 0 : a / b; 
         } else if(op.equals("mod")) { 
             return a % b; 
         } else if(op.equals("pow")) { 
@@ -34,9 +28,7 @@ public class Calculator {
         } 
     } 
 
-    // INTENTIONAL DUPLICATION 
-public int addAgain(int a, int b) { 
-return a + b; 
-} 
-
+    public int addAgain(int a, int b) { 
+        return a + b; 
+    } 
 }
