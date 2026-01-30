@@ -25,4 +25,10 @@ public class CalculatorTest {
         Calculator calc = new Calculator();
         assertEquals(20, calc.addAgain(10, 10));
     }
+
+    @Test
+public void testCalculatorElseBranch() {
+    Calculator calc = new Calculator();
+    assertEquals(0, calc.calculate(10, 5, "something-random"));
+}
 }
