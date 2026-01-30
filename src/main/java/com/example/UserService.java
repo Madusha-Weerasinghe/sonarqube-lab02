@@ -1,35 +1,38 @@
-package main.java.com.example;
+package com.example;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class UserService {
 
-    // SECURITY ISSUE: Hardcoded credentials
     private String password = "admin123";
+    private final String dbUrl = "jdbc:mysql://localhost/db";
 
-    // VULNERABILITY: SQL Injection
-    public void findUser(String username) throws Exception {
+    // Replaced generic Exception with SQLException
+    public void findUser(String username) throws SQLException {
+        String query = "SELECT * FROM users WHERE name = '" + username + "'";
 
-        Connection conn =
-            DriverManager.getConnection("jdbc:mysql://localhost/db",
-                    "root", password);
-
-        Statement st = conn.createStatement();
-
-        String query =
-            "SELECT * FROM users WHERE name = '" + username + "'";
-
-        st.executeQuery(query);
+        // Try-with-resources ensures both Connection and Statement are closed automatically
+        try (Connection conn = DriverManager.getConnection(dbUrl, "root", password);
+             Statement st = conn.createStatement()) {
+            
+            st.executeQuery(query);
+        }
     }
 
-    // SMELL: Unused method
+    public void deleteUser(String username) throws SQLException { 
+        String query = "DELETE FROM users WHERE name = '" + username + "'"; 
+
+        try (Connection conn = DriverManager.getConnection(dbUrl, "root", password);
+             Statement st = conn.createStatement()) {
+            
+            st.execute(query);
+        }
+    }
+
     public void notUsed() {
-        System.out.println("I am never called");
+        // This will still trigger a SonarQube "Unused Method" smell
     }
-
-    
-
-
 }
